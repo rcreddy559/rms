@@ -1,6 +1,5 @@
 package com.booking.controllers;
 
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -9,18 +8,16 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.booking.handler.BookingHandler;
 import com.booking.models.BookingModel;
 
-import java.time.Duration;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Configuration
 public class BookingController {
-    private final String BOOKING = "/booking";
+    private static final String BOOKING_ID = "bookingId";
+    private static final String BOOKING = "/booking";
     private final BookingHandler bookingHandler;
 
     public BookingController(BookingHandler bookingHandler) {
@@ -46,7 +43,7 @@ public class BookingController {
     }
 
     public Mono<ServerResponse> getBooking(ServerRequest serverRequest) {
-        var bookingId = serverRequest.pathVariable("bookingId");
+        var bookingId = serverRequest.pathVariable(BOOKING_ID);
         return ServerResponse.ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(bookingHandler.getBooking(bookingId), String.class);
@@ -60,7 +57,7 @@ public class BookingController {
     }
 
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
-        var bookingId = serverRequest.pathVariable("bookingId");
+        var bookingId = serverRequest.pathVariable(BOOKING_ID);
         var booking = serverRequest.bodyToMono(BookingModel.class);
         return ServerResponse.ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
@@ -68,7 +65,7 @@ public class BookingController {
     }
 
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
-        var bookingId = serverRequest.pathVariable("bookingId");
+        var bookingId = serverRequest.pathVariable(BOOKING_ID);
         bookingHandler.delete(Long.valueOf(bookingId));
         return ServerResponse.ok().build();
     }
