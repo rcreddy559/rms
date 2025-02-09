@@ -11,7 +11,6 @@ import com.booking.models.BookingModel;
 
 import java.time.Duration;
 
-import org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer.Check;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -35,7 +34,7 @@ public class BookingController {
                 .GET(BOOKING + "/{bookingId}", this::getBooking)
                 .POST(BOOKING, this::save)
                 .PUT(BOOKING + "/{bookingId}", this::update)
-                .GET(BOOKING + "availability?roomTypeId={roomTypeId}&startDate={startDate}&endDate={endDate}",
+                .GET(BOOKING + "/availability/{roomTypeId}/{startDate}/{endDate}",
                         this::roomAvailability)
                 .build();
     }
