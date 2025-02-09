@@ -7,10 +7,12 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Builder
 @Setter
 @Getter
+@ToString
 public class BookingModel {
     private Long bookingId;
     private Long guestId;
