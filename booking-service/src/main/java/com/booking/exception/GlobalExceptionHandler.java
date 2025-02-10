@@ -1,11 +1,9 @@
 package com.booking.exception;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
@@ -16,23 +14,12 @@ public class GlobalExceptionHandler {
     // handle specific exceptions
     @ExceptionHandler(ResourceNotFoundException.class)
     public Mono<ResponseEntity<ErrorDetails>> handleResourceNotFoundException(ResourceNotFoundException exception) {
-        System.out.println("--------------------------");
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), "ResourceNotFoundException");
         return Mono.just(new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND));
     }
 
-//    @ExceptionHandler(BlogAPIException.class)
-//    public ResponseEntity<ErrorDetails> handleBlogAPIException(BlogAPIException exception,
-//                                                               WebRequest webRequest) {
-//        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-//                webRequest.getDescription(false));
-//        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-//    }
-
-    // global exceptions
     @ExceptionHandler(Exception.class)
     public Mono<ResponseEntity<ErrorDetails>> handleGlobalException(Exception exception) {
-        System.out.println("=============================");
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
                 "webRequest.getDescription(false)");
         return Mono.just(new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR));

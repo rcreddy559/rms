@@ -1,6 +1,7 @@
 package com.booking.handler;
 
 import com.booking.exception.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.booking.models.BookingModel;
@@ -9,6 +10,7 @@ import com.booking.models.BookingStatus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 public class BookingHandler {
 
