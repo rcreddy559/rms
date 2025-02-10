@@ -1,5 +1,6 @@
 package com.booking.handler;
 
+import com.booking.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.booking.models.BookingModel;
@@ -11,7 +12,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class BookingHandler {
 
-    Flux<BookingModel> bookings;
+    final private Flux<BookingModel> bookings;
 
     BookingHandler() {
         bookings = Flux.range(0, 19)
@@ -24,6 +25,10 @@ public class BookingHandler {
     }
 
     public Flux<BookingModel> getBooking(String bookingId) {
+        final long id = Long.parseLong(bookingId);
+        if (20 < id) {
+            throw new ResourceNotFoundException("BookingHandler", "bookingId", id);
+        }
         return Flux
                 .just(BookingModel.builder().bookingId(Long.valueOf(bookingId)).bookingStatus(BookingStatus.CHECKED_IN)
                         .build());
