@@ -212,7 +212,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/booking/22",
+							"raw": "http://localhost:8080/booking/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -220,7 +220,7 @@
 							"port": "8080",
 							"path": [
 								"booking",
-								"22"
+								"2"
 							]
 						}
 					},
@@ -244,6 +244,148 @@
 								"2989",
 								"2025-02-21",
 								"2025-02-10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Guest",
+			"item": [
+				{
+					"name": "get Guests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/guests",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"guests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Guest by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/guests/1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"guests",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Guest by emailid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/guests/email/test@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"guests",
+								"email",
+								"test@example.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Guest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Gnanai\",\n    \"email\":\"gnanai@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/guests",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"guests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Guest",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Gnanai\",\n    \"email\":\"gnanai@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/guests/1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"guests",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete guest",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/guests/1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"guests",
+								"1234"
 							]
 						}
 					},
