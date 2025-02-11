@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -23,8 +24,9 @@ public class GuestController {
                 .GET("/guests/{guestId}", this::getGuest)
                 .POST("/guests", this::save)
                 .PUT("/guests/{guestId}", this::update)
-                .DELETE("/guests/{guestId}", this::delte)
+                .DELETE("/guests/{guestId}", this::delete)
                 .GET("/guests/email/{email}", this::getGuestByEmail)
+                .GET("/guests/name/{name}", this::getGuestByName)
                 .build();
     }
 
@@ -71,20 +73,30 @@ public class GuestController {
                 .contentType(MediaType.TEXT_EVENT_STREAM).body(guestUpdated, GuestModel.class);
     }
 
-    private Mono<ServerResponse> delte(ServerRequest request) {
-        log.info("[START] delte");
+    private Mono<ServerResponse> delete(ServerRequest request) {
+        log.info("[START] delete");
         var guestId = request.pathVariable("guestId");
         log.info("guestId: " + guestId);
-        log.info("[END] delte");
+        log.info("[END] delete");
         return Mono.empty();
     }
 
     private Mono<ServerResponse> getGuestByEmail(ServerRequest request) {
-        log.info("[START] delte");
+        log.info("[START] getGuestByEmail");
         var email = request.pathVariable("email");
         log.info("email: " + email);
-        log.info("[END] delte");
+        log.info("[END] getGuestByEmail");
         Mono<GuestModel> guest = Mono.just(new GuestModel(1234L, "Name-Name-Name", email));
+        return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(guest, GuestModel.class);
+    }
+
+    private Mono<ServerResponse> getGuestByName(ServerRequest request) {
+        log.info("[START] getGuestByName");
+        var name = request.pathVariable("name");
+        log.info("email: " + name);
+        log.info("[END] getGuestByName");
+        Mono<GuestModel> guest = Mono.just(new GuestModel(1234L, name, "Emailid"));
+
         return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(guest, GuestModel.class);
     }
 
