@@ -1,5 +1,6 @@
 package com.guest.controller;
 
+import com.guest.handler.GuestHandler;
 import com.guest.model.GuestModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,12 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class GuestController {
 
+    private final GuestHandler guestHandler;
+
+    GuestController(GuestHandler handler) {
+        this.guestHandler = handler;
+    }
+
     @Bean
     public RouterFunction<ServerResponse> guestRouter() {
         return RouterFunctions.route()
@@ -32,26 +39,24 @@ public class GuestController {
 
     private Mono<ServerResponse> getGuests(ServerRequest request) {
         log.info("[START] get Guests");
+        Flux<GuestModel> guests = guestHandler.getGuests();
         log.info("[END] get Guests");
-        return Mono.empty();
+        return ServerResponse.ok().body(guests, Mono.class);
     }
 
     private Mono<ServerResponse> getGuest(ServerRequest request) {
         log.info("[START] getGuest");
         var guestId = request.pathVariable("guestId");
+        Mono<GuestModel> guest = guestHandler.getGuest(guestId);
         log.info("guestId: " + guestId);
         log.info("[END] getGuest");
-        return Mono.empty();
+        return ServerResponse.ok().body(guest, GuestModel.class);
     }
 
     private Mono<ServerResponse> save(ServerRequest request) {
         log.info("[START] save");
         Mono<GuestModel> guest = request.bodyToMono(GuestModel.class);
-        Mono<GuestModel> guestSave = guest.map(g -> {
-            g.setId(909090L);
-            g.setEmail(g.getEmail() + "-save");
-            return g;
-        });
+        Mono<GuestModel> guestSave = guestHandler.save(guest);
         log.info("[END] save");
         return ServerResponse.ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM).body(guestSave, GuestModel.class);
@@ -99,5 +104,6 @@ public class GuestController {
 
         return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(guest, GuestModel.class);
     }
+
 
 }
