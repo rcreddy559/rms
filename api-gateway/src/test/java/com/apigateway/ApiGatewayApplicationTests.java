@@ -1,10 +1,10 @@
-package com.rms;
+package com.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RmsApiGatewayApplicationTests {
+class ApiGatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
