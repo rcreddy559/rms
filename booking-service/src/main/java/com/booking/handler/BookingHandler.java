@@ -9,20 +9,26 @@ import com.booking.models.BookingStatus;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import com.booking.service.KafkaProducerService;
 
 @Slf4j
 @Service
 public class BookingHandler {
 
-    final private Flux<BookingModel> bookings;
+    private final Flux<BookingModel> bookings;
+    private final KafkaProducerService kafkaProducerService;
 
-    BookingHandler() {
-        bookings = Flux.range(0, 19)
+    BookingHandler(KafkaProducerService kafkaProducerService){
+        this.kafkaProducerService = kafkaProducerService;
+bookings = Flux.range(0, 19)
                 .map(i -> BookingModel.builder().bookingId(Long.valueOf(i)).bookingStatus(BookingStatus.CHECKED_IN)
                         .build());
     }
 
+   
+
     public Flux<BookingModel> getBookings() {
+	kafkaProducerService.sendMessage("Hello Kafka world, this is message has been sent to check the Kafka is working or not ?");
         return bookings;
     }
 
